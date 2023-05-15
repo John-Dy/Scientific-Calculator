@@ -1,14 +1,19 @@
 #Main Program for Calculator
+#VERSION 1.1
 import tkinter as tk
 import math
 
 #These functions have to be declared outside the Calculator class
 def trimZeroes(x): #CUTS ALL LEADING ZEROES AND REMOVES THE DECIMAL IF DECIMAL PART IS EMPTY
     if "." in x:
-        y = x.rstrip("0")
+        y = x
+        notation = ""
+        if "e+" in x:
+            y = x.split("e+")[0].rstrip("0")
+            notation = "e+" + x.split("e+")[1]
         if y[len(y) - 1] == ".":
             y = y[:-1]
-        return y
+        return y + notation
     return x
 
 def trimDecimal(x):
@@ -26,7 +31,7 @@ def trimDecimal(x):
             y = x[:-i-2]
             z = 2 + i
         b = 0
-        while len(y) > (17 - z) and "." in y:
+        while len(y) > (17 - z) and "." in y and (a - b) >= 0:
             y = str(round(float(y), a-b))
             b += 1
         return y + notation
@@ -40,7 +45,7 @@ def scientificNotation(x): #CONVERTS TO SCIENTIFIC NOTATION IF STRING IS MORE TH
     return x
 
 def formatValues(x): #A single function is used to call the 3 other functions that format the number. This is to make the code look less clunky
-    return trimZeroes(scientificNotation(trimDecimal(x)))
+    return trimDecimal(trimZeroes(scientificNotation(trimDecimal(x))))
 
 def degOrRad(x, mode, inverse): #CONVERTS ANGLE TO DEGREES OR RADIANS IF DEGREE MODE IS USED SINCE PYTHON TRIGONOMETRY IS IN RADIANS BY DEFAULT
     if mode == "Deg":
