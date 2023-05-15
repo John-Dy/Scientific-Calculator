@@ -6,7 +6,7 @@ import math
 #These functions have to be declared outside the Calculator class
 def trimZeroes(x): #CUTS ALL LEADING ZEROES AND REMOVES THE DECIMAL IF DECIMAL PART IS EMPTY
     if "." in x:
-        y = x
+        y = x.rstrip("0")
         notation = ""
         if "e+" in x:
             y = x.split("e+")[0].rstrip("0")
